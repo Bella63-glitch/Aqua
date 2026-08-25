@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AquaProH Swimming Academy — Find Your Water</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0b2438;
+    --navy-2:#0e2c44;
+    --ink:#071826;
+    --sky:#4fb7d9;
+    --teal:#1487a8;
+    --gold:#f5b942;
+    --paleblue:#e7f2f6;
+    --paleblue-2:#f4f9fb;
+    --line: rgba(11,36,56,0.1);
+    --line-dark: rgba(255,255,255,0.12);
+    --gray:#4d6373;
+    --max:1180px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth; overflow-x:hidden;}
+  body{
+    font-family:'Inter', sans-serif;
+    color:var(--navy);
+    background:#fff;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    width:100%;
+  }
+  h1,h2,h3,.display{
+    font-family:'Sora', sans-serif;
+    font-weight:700;
+    line-height:1.12;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit; text-decoration:none;}
+  img{display:block; max-width:100%;}
+  svg{display:block;}
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 32px;}
+  @media (max-width:640px){ .wrap{padding:0 20px;} }
+  .eyebrow{
+    font-size:0.72rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--teal);
+    display:flex; align-items:center; gap:8px;
+  }
+  .eyebrow::before{content:''; width:16px; height:1.5px; background:var(--gold);}
+
+  .icon{width:20px; height:20px; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round;}
+  .arrow{display:inline-flex; align-items:center; transition:transform .3s ease;}
+  a:hover .arrow{transform:translateX(5px);}
+
+  /* ---------- Entrance keyframes ---------- */
+  @keyframes fadeUp{
+    from{opacity:0; transform:translateY(22px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  @keyframes floatY{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-10px);}
+  }
+  @keyframes pulseRing{
+    0%{box-shadow:0 0 0 0 rgba(245,185,66,0.45);}
+    100%{box-shadow:0 0 0 18px rgba(245,185,66,0);}
+  }
+  @keyframes shimmer{
+    0%{background-position:-200% 0;}
+    100%{background-position:200% 0;}
+  }
+  .fade-in{opacity:0; animation:fadeUp .8s ease forwards;}
+  @media (prefers-reduced-motion: reduce){
+    .fade-in{opacity:1; animation:none;}
+    .reveal{opacity:1 !important; transform:none !important; transition:none !important;}
+    *{animation:none !important;}
+  }
+
+  /* ---------- Nav ---------- */
+  header{position:sticky; top:0; z-index:100; background:rgba(11,36,56,0.94); backdrop-filter:blur(10px); border-bottom:1px solid var(--line-dark); transition:background .3s ease;}
+  nav.wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 32px;}
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand img{
+    height:48px; width:48px; object-fit:cover; border-radius:50%; background:#fff;
+    box-shadow:0 8px 18px rgba(0,0,0,0.28); transform:translateY(9px);
+    position:relative; z-index:2;
+  }
+  .brand-text{font-family:'Sora',sans-serif; font-weight:700; font-size:1rem; line-height:1.05; color:#fff;}
+  .brand-text span{display:block; font-family:'Inter',sans-serif; font-weight:600; font-size:0.6rem; letter-spacing:0.16em; color:#8fabbc;}
+  .nav-links{display:flex; align-items:center; gap:30px;}
+  .nav-links a{font-size:0.88rem; font-weight:600; color:#dcebf1; position:relative; padding-bottom:4px;}
+  .nav-links a:not(.nav-cta)::after{content:''; position:absolute; left:0; bottom:0; width:0; height:2px; background:var(--gold); transition:width .3s ease;}
+  .nav-links a:not(.nav-cta):hover::after, .nav-links a.active::after{width:100%;}
+  .nav-links a.active{color:#fff;}
+  .nav-cta{background:var(--gold); color:var(--ink); padding:11px 20px; border-radius:8px; font-weight:700; display:inline-flex; align-items:center; gap:8px; transition:transform .25s ease, background .25s ease;}
+  .nav-cta:hover{transform:translateY(-2px); background:#ffc65e;}
+  .burger{display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer;}
+  .burger span{width:24px; height:2px; background:#fff; transition:transform .3s ease, opacity .3s ease;}
+  @media (max-width:860px){
+    .nav-links{position:fixed; top:63px; right:0; width:min(78vw,300px); height:calc(100vh - 63px);
+      background:var(--navy); flex-direction:column; align-items:flex-start; padding:30px; gap:22px;
+      transform:translateX(100%); transition:transform .35s ease; box-shadow:-6px 0 24px rgba(0,0,0,0.25);}
+    .nav-links.open{transform:translateX(0);}
+    .burger{display:flex;}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{position:relative; background:var(--navy); overflow:hidden;}
+  .hero-img{position:absolute; inset:0; width:100%; height:110%; object-fit:cover; object-position:60% 20%; opacity:0.55; will-change:transform;}
+  .hero-scrim{position:absolute; inset:0; background:linear-gradient(100deg, rgba(7,24,38,0.97) 28%, rgba(7,24,38,0.55) 68%, rgba(7,24,38,0.25) 100%);}
+  .hero-content{position:relative; z-index:2; padding:76px 0 60px; max-width:680px;}
+  .hero h1{color:#fff; font-size:clamp(2.4rem,6vw,3.6rem); margin:18px 0 20px;}
+  .hero h1 .accent{color:var(--sky);}
+  .hero p{color:#c9dbe4; font-size:1.05rem; max-width:520px; margin-bottom:30px; font-weight:400;}
+  .btn-row{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:26px;}
+  .btn{display:inline-flex; align-items:center; gap:8px; padding:14px 24px; border-radius:8px; font-weight:700; font-size:0.92rem; transition:transform .25s ease, background .25s ease, box-shadow .25s ease; position:relative; overflow:hidden;}
+  .btn-solid{background:var(--gold); color:var(--ink);}
+  .btn-solid:hover{transform:translateY(-3px); background:#ffc65e; box-shadow:0 12px 24px rgba(245,185,66,0.3);}
+  .btn-line{border:1.5px solid rgba(255,255,255,0.4); color:#fff;}
+  .btn-line:hover{transform:translateY(-3px); border-color:#fff; background:rgba(255,255,255,0.08);}
+  .tagline{display:flex; align-items:center; gap:10px; color:#a9c4d4; font-size:0.85rem;}
+  .tagline .dot{width:7px; height:7px; border-radius:50%; background:var(--gold); animation:pulseRing 2.2s ease-out infinite;}
+  .tagline b{color:#fff; font-weight:700;}
+
+  .stat-bar{position:relative; z-index:2; background:var(--ink); border-top:1px solid var(--line-dark);}
+  .stat-bar .wrap{display:flex; align-items:center; gap:0; padding:26px 32px; flex-wrap:wrap;}
+  .stat-lead{flex:1 1 220px; color:#dcebf1; font-size:1rem; font-weight:600; padding-right:20px; min-width:180px;}
+  .stat{display:flex; align-items:baseline; gap:10px; padding:0 26px; border-left:1px solid var(--line-dark);}
+  .stat b{font-family:'Sora',sans-serif; color:var(--sky); font-size:1.6rem;}
+  .stat span{color:#9db6c4; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.06em;}
+  @media (max-width:700px){ .stat{padding:8px 16px 8px 0; border-left:none;} .stat-bar .wrap{flex-direction:column; align-items:flex-start;} }
+
+  /* ---------- Approach ---------- */
+  section{padding:88px 0;}
+  .approach{background:var(--paleblue-2);}
+  .approach-grid{display:grid; grid-template-columns:0.9fr 1.1fr; gap:64px; align-items:center;}
+  @media (max-width:900px){ .approach-grid{grid-template-columns:1fr; gap:40px;} }
+  .approach-img{position:relative;}
+  .approach-img img{border-radius:14px; width:100%; height:420px; object-fit:cover; transition:transform .6s ease;}
+  .approach-img:hover img{transform:scale(1.03);}
+  .badge{
+    position:absolute; bottom:-22px; right:-18px; background:var(--gold); color:var(--ink);
+    width:110px; height:110px; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; box-shadow:0 12px 30px rgba(245,185,66,0.4); animation:floatY 4s ease-in-out infinite;
+  }
+  .badge b{font-family:'Sora',sans-serif; font-size:1.3rem; line-height:1;}
+  .badge span{font-size:0.62rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin-top:4px;}
+  .approach-copy h2{font-size:clamp(1.9rem,3.6vw,2.6rem); margin:14px 0 18px;}
+  .approach-copy p{color:var(--gray); font-size:1rem; margin-bottom:22px; max-width:520px;}
+  .check-list{margin-bottom:26px;}
+  .check-list li{list-style:none; display:flex; gap:12px; align-items:flex-start; margin-bottom:12px; font-weight:600; font-size:0.95rem; color:var(--navy);}
+  .check-list li .tick{
+    flex:none; width:22px; height:22px; border-radius:50%; background:var(--teal); color:#fff;
+    display:flex; align-items:center; justify-content:center; margin-top:1px;
+  }
+  .check-list li .tick svg{width:12px; height:12px; stroke:#fff; stroke-width:3;}
+
+  /* ---------- Programs ---------- */
+  .programs{background:#fff;}
+  .prog-head{display:flex; justify-content:space-between; align-items:flex-end; gap:30px; margin-bottom:40px; flex-wrap:wrap;}
+  .prog-head h2{font-size:clamp(1.9rem,3.6vw,2.6rem); margin-top:12px; max-width:520px;}
+  .prog-head p{color:var(--gray); max-width:320px; font-size:0.95rem;}
+  .stage-grid{display:grid; grid-template-columns:1fr 1fr 1fr; gap:0; border:1px solid var(--line); border-radius:14px; overflow:hidden; margin-bottom:26px;}
+  @media (max-width:800px){ .stage-grid{grid-template-columns:1fr;} }
+  .stage{padding:34px 28px; min-height:230px; display:flex; flex-direction:column; justify-content:space-between; position:relative; transition:transform .35s ease, box-shadow .35s ease; z-index:1;}
+  .stage:hover{transform:translateY(-6px); box-shadow:0 20px 40px rgba(11,36,56,0.15); z-index:2;}
+  .stage.s1{background:var(--navy); color:#fff;}
+  .stage.s2{background:#fff; color:var(--navy); border-left:1px solid var(--line); border-right:1px solid var(--line);}
+  .stage.s3{color:#fff; position:relative; overflow:hidden;}
+  .stage.s3 img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; transition:transform .6s ease;}
+  .stage.s3:hover img{transform:scale(1.08);}
+  .stage.s3::before{content:''; position:absolute; inset:0; background:linear-gradient(180deg, rgba(11,36,56,0.55), rgba(11,36,56,0.85)); z-index:1;}
+  .stage.s3 > *{position:relative; z-index:2;}
+  .stage-tag{font-size:0.7rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; opacity:0.75; margin-bottom:10px;}
+  .stage h3{font-size:1.35rem; margin-bottom:10px;}
+  .stage p{font-size:0.9rem; opacity:0.85; margin-bottom:18px;}
+  .stage .go{font-size:0.85rem; font-weight:700; display:inline-flex; align-items:center; gap:6px;}
+  .stage.s1 .go, .stage.s3 .go{color:var(--gold);}
+  .stage.s2 .go{color:var(--teal);}
+
+  .services-panel{background:var(--paleblue); border-radius:14px; padding:28px 30px;}
+  .services-panel-top{display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:10px;}
+  .services-panel-top .eyebrow{color:var(--teal);}
+  .services-panel-top a{font-size:0.85rem; font-weight:700; color:var(--teal); display:inline-flex; align-items:center; gap:6px;}
+  .pill-row{display:flex; flex-wrap:wrap; gap:10px;}
+  .pill{background:#fff; border:1px solid rgba(11,36,56,0.12); padding:9px 16px; border-radius:999px; font-size:0.85rem; font-weight:600; color:var(--navy); transition:border-color .25s ease, transform .25s ease, color .25s ease;}
+  .pill:hover{border-color:var(--teal); color:var(--teal); transform:translateY(-2px);}
+
+  /* full service grid */
+  .full-services{background:var(--ink); color:#fff;}
+  .svc-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line-dark); border:1px solid var(--line-dark); border-radius:14px; overflow:hidden; margin-top:40px;}
+  @media (max-width:900px){ .svc-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:600px){ .svc-grid{grid-template-columns:1fr;} }
+  .svc{background:var(--ink); padding:30px 26px; transition:background .3s ease, transform .3s ease;}
+  .svc:hover{background:var(--navy-2); transform:translateY(-4px);}
+  .svc .num{font-size:0.72rem; color:var(--gold); font-weight:700; letter-spacing:0.14em; display:block; margin-bottom:12px;}
+  .svc h4{font-family:'Sora'; font-size:1.08rem; margin-bottom:8px;}
+  .svc p{color:#9db6c4; font-size:0.88rem;}
+
+  /* ---------- Locations ---------- */
+  .locations{background:var(--paleblue-2);}
+  .loc-head{max-width:600px; margin-bottom:40px;}
+  .loc-head h2{font-size:clamp(1.9rem,3.6vw,2.6rem); margin:12px 0 14px;}
+  .loc-head p{color:var(--gray);}
+  .loc-cards{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-bottom:18px;}
+  @media (max-width:860px){ .loc-cards{grid-template-columns:1fr;} }
+  .loc-card{border-radius:14px; padding:28px 26px; min-height:180px; display:flex; flex-direction:column; justify-content:space-between; transition:transform .3s ease, box-shadow .3s ease;}
+  .loc-card:hover{transform:translateY(-6px); box-shadow:0 20px 34px rgba(11,36,56,0.12);}
+  .loc-card.primary{background:var(--navy); color:#fff;}
+  .loc-card.secondary{background:#fff; border:1px solid var(--line); color:var(--navy);}
+  .pin{width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:14px;}
+  .loc-card.primary .pin{background:rgba(245,185,66,0.18); color:var(--gold);}
+  .loc-card.secondary .pin{background:var(--paleblue); color:var(--teal);}
+  .loc-card h3{font-size:1.2rem; margin-bottom:6px;}
+  .loc-card p{font-size:0.88rem; opacity:0.8; margin-bottom:16px;}
+  .loc-card .go{font-size:0.85rem; font-weight:700; display:inline-flex; align-items:center; gap:6px;}
+  .loc-card.primary .go{color:var(--gold);}
+  .loc-card.secondary .go{color:var(--teal);}
+
+  .plan-bar{background:var(--ink); border-radius:14px; padding:26px 30px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:18px; color:#fff;}
+  .plan-bar .eyebrow{color:var(--sky); margin-bottom:6px;}
+  .plan-bar .hours{font-family:'Sora'; font-weight:700; font-size:1.05rem;}
+  .plan-info{display:flex; align-items:center; gap:26px; flex-wrap:wrap;}
+  .plan-info a{font-size:0.9rem; font-weight:600; display:flex; align-items:center; gap:8px; color:#dcebf1; transition:color .25s ease;}
+  .plan-info a:hover{color:var(--sky);}
+  .plan-bar .btn-solid{white-space:nowrap;}
+
+  /* ---------- CTA banner ---------- */
+  .cta-banner{background:linear-gradient(120deg, var(--teal), #0d6f8b); position:relative; overflow:hidden;}
+  .cta-banner::after{content:''; position:absolute; right:-80px; top:-80px; width:320px; height:320px; border-radius:50%; border:1px solid rgba(255,255,255,0.18); animation:floatY 7s ease-in-out infinite;}
+  .cta-banner::before{content:''; position:absolute; right:-20px; top:20px; width:220px; height:220px; border-radius:50%; border:1px solid rgba(255,255,255,0.14); animation:floatY 5s ease-in-out infinite reverse;}
+  .cta-inner{display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap; position:relative; z-index:2;}
+  .cta-inner h2{color:#fff; font-size:clamp(1.7rem,3.6vw,2.4rem); max-width:560px;}
+
+  /* ---------- Contact section (id=contact) ---------- */
+  .contact-detail{background:#fff;}
+  .contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:60px;}
+  @media (max-width:860px){ .contact-grid{grid-template-columns:1fr; gap:40px;} }
+  .cdet{display:flex; gap:16px; margin-bottom:26px; transition:transform .25s ease;}
+  .cdet:hover{transform:translateX(4px);}
+  .cdet .ic{width:44px; height:44px; border-radius:10px; background:var(--paleblue); color:var(--teal); display:flex; align-items:center; justify-content:center; flex:none;}
+  .cdet h4{font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--gray); margin-bottom:5px;}
+  .cdet a, .cdet p{font-weight:700; font-size:1.02rem; color:var(--navy);}
+  .social-row{display:flex; gap:10px; margin-top:6px;}
+  .social-row a{border:1px solid var(--line); padding:8px 16px; border-radius:999px; font-size:0.82rem; font-weight:600; transition:border-color .25s ease, color .25s ease;}
+  .social-row a:hover{border-color:var(--teal); color:var(--teal);}
+
+  .form-card{background:var(--paleblue-2); border:1px solid var(--line); border-radius:14px; padding:32px;}
+  .form-card h3{font-size:1.25rem; margin-bottom:20px;}
+  .form-row{margin-bottom:16px;}
+  .form-row label{display:block; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--gray); margin-bottom:7px;}
+  .form-row input, .form-row select, .form-row textarea{
+    width:100%; border:1px solid var(--line); background:#fff; padding:12px 14px; border-radius:8px; font-family:'Inter'; font-size:0.92rem; color:var(--navy);
+    transition:border-color .25s ease, box-shadow .25s ease;
+  }
+  .form-row input:focus, .form-row select:focus, .form-row textarea:focus{outline:none; border-color:var(--teal); box-shadow:0 0 0 3px rgba(20,135,168,0.15);}
+  .form-row textarea{min-height:90px; resize:vertical;}
+  .form-note{font-size:0.82rem; color:var(--gray); margin-top:10px; display:none;}
+
+  /* ---------- Footer ---------- */
+  footer{background:var(--ink); color:#9db6c4; padding:50px 0 26px;}
+  .foot-top{display:flex; justify-content:space-between; gap:30px; flex-wrap:wrap; margin-bottom:34px;}
+  .foot-brand{display:flex; align-items:center; gap:10px; margin-bottom:10px;}
+  .foot-brand img{
+    height:44px; width:44px; object-fit:cover; border-radius:50%; background:#fff;
+    box-shadow:0 6px 16px rgba(0,0,0,0.22);
+  }
+  .foot-brand b{color:#fff; font-family:'Sora'; font-size:1rem;}
+  .foot-copy{max-width:280px; font-size:0.88rem;}
+  .foot-links{display:flex; gap:26px; flex-wrap:wrap;}
+  .foot-links a{font-size:0.88rem; font-weight:600; transition:color .25s ease;}
+  .foot-links a:hover{color:#fff;}
+  .foot-bottom{border-top:1px solid var(--line-dark); padding-top:20px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:0.8rem;}
+
+  .reveal{opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="#home" class="brand">
+      <img src="https://i.postimg.cc/j2HSW4J8/aquaproh-logo-white-Dg-Cc9q-Ut.jpg" alt="AquaProH logo">
+      <span class="brand-text">AquaProH<span>SWIMMING ACADEMY</span></span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#home" class="active">Home</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+      <a href="https://wa.me/254795282709" target="_blank" rel="noopener" class="nav-cta">Start an enquiry <span class="arrow">→</span></a>
+    </div>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="home" style="padding:0;">
+  <img class="hero-img" id="heroImg" src="https://i.postimg.cc/s2bjwNYb/IMG-20260823-WA0013(1).jpg" alt="AquaProH swimmer">
+  <div class="hero-scrim"></div>
+  <div class="wrap hero-content">
+    <span class="eyebrow fade-in" style="color:var(--sky); animation-delay:.05s">Nairobi's Swimming Academy</span>
+    <h1 class="fade-in" style="animation-delay:.2s">Find your <span class="accent">water.</span><br>Own your stroke.</h1>
+    <p class="fade-in" style="animation-delay:.35s">From first splash to race-day focus, AquaProH gives every swimmer a clear path forward — with patient coaching, purposeful training, and safety at the centre.</p>
+    <div class="btn-row fade-in" style="animation-delay:.5s">
+      <a href="https://wa.me/254795282709" target="_blank" rel="noopener" class="btn btn-solid">Book an assessment <span class="arrow">→</span></a>
+      <a href="services.html" class="btn btn-line">Explore programmes</a>
+    </div>
+    <div class="tagline fade-in" style="animation-delay:.65s"><span class="dot"></span><b>Swim beyond horizons.</b>&nbsp;Every stroke counts.</div>
+  </div>
+  <div class="stat-bar">
+    <div class="wrap">
+      <div class="stat-lead">A calm, structured place to make progress.</div>
+      <div class="stat"><b class="count" data-target="9">0</b><span>Ways to progress</span></div>
+      <div class="stat"><b class="count" data-target="4">0</b><span>Nairobi locations</span></div>
+      <div class="stat"><b>360°</b><span>Water confidence</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- APPROACH -->
+<section class="approach">
+  <div class="wrap approach-grid">
+    <div class="approach-img reveal">
+      <img src="https://i.postimg.cc/50cJwFJn/IMG-20260823-WA0015.jpg" alt="AquaProH training pool">
+      <div class="badge"><b>360°</b><span>confidence in water</span></div>
+    </div>
+    <div class="approach-copy reveal">
+      <span class="eyebrow">The AquaProH Approach</span>
+      <h2>Technique is built.<br>Confidence is felt.</h2>
+      <p>At AquaProH Swimming, we are proud to see our swimmers grow in confidence, skill, and water safety. Through structured training and professional guidance, our programs help swimmers of all ages improve their technique, build endurance, and enjoy the water in a safe and supportive environment. Every stroke is a step towards confidence and progress. — Coach Jeremy</p>
+      <ul class="check-list">
+        <li><span class="tick"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> Professional, encouraging guidance</li>
+        <li><span class="tick"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> Progressions for every starting point</li>
+        <li><span class="tick"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> Safety skills that stay with you</li>
+      </ul>
+      <a href="services.html" class="btn" style="background:var(--navy); color:#fff;">See how we coach <span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMS -->
+<section class="programs" id="services">
+  <div class="wrap">
+    <div class="prog-head reveal">
+      <div>
+        <span class="eyebrow">A Programme For Your Next Lap</span>
+        <h2>Start where you are.<br>Go further than you thought.</h2>
+      </div>
+      <p>Small, focused steps become natural movement. Find the lane that meets you today, then let your coach take you further.</p>
+    </div>
+
+    <div class="stage-grid reveal">
+      <div class="stage s1">
+        <div>
+          <span class="stage-tag">01 / Foundations</span>
+          <h3>Water confidence &amp; learn to swim</h3>
+          <p>Gentle orientation, breathing, floating and the first strokes — a reassuring start for children and adults.</p>
+        </div>
+        <a href="services.html#full-services" class="go">Find your starting point <span class="arrow">→</span></a>
+      </div>
+      <div class="stage s2">
+        <div>
+          <span class="stage-tag">02 / Progress</span>
+          <h3>Intermediate</h3>
+          <p>Build rhythm, endurance and a more efficient stroke.</p>
+        </div>
+        <a href="services.html#full-services" class="go">View programme <span class="arrow">→</span></a>
+      </div>
+      <div class="stage s3">
+        <img src="https://i.postimg.cc/sgX3yrKq/IMG-20260823-WA0014(1).jpg" alt="Pool lane at AquaProH">
+        <div>
+          <span class="stage-tag">03 / Performance</span>
+          <h3>Advanced &amp; competitive</h3>
+          <p>Sharper technique, stronger turns and race-ready focus.</p>
+        </div>
+        <a href="services.html#full-services" class="go">View programme <span class="arrow">→</span></a>
+      </div>
+    </div>
+
+    <div class="services-panel reveal">
+      <div class="services-panel-top">
+        <span class="eyebrow">All services</span>
+        <a href="services.html#full-services">View full service details <span class="arrow">→</span></a>
+      </div>
+      <div class="pill-row">
+        <span class="pill">Water confidence / orientation</span>
+        <span class="pill">Learn to swim</span>
+        <span class="pill">Intermediate</span>
+        <span class="pill">Advanced</span>
+        <span class="pill">Competitive swimming</span>
+        <span class="pill">Aqua-therapy</span>
+        <span class="pill">Survival techniques</span>
+        <span class="pill">Lifesaving techniques</span>
+        <span class="pill">Aquatic first aid</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <div class="wrap cta-inner">
+    <div>
+      <span class="eyebrow" style="color:#dff4fb;">Ready when you are</span>
+      <h2 style="margin-top:10px;">Let's find the right water for you.</h2>
+    </div>
+    <a href="https://wa.me/254795282709" target="_blank" rel="noopener" class="btn btn-solid">Start a conversation <span class="arrow">→</span></a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="foot-brand"><img src="https://i.postimg.cc/j2HSW4J8/aquaproh-logo-white-Dg-Cc9q-Ut.jpg" alt="AquaProH logo"><b>AquaProH<br>Swimming Academy</b></div>
+        <p class="foot-copy">Structured coaching for confident swimmers, capable bodies, and safer communities.</p>
+      </div>
+      <div class="foot-links">
+        <a href="services.html">Services</a>
+        <a href="contact.html">Contact</a>
+        <a href="https://wa.me/254795282709" target="_blank" rel="noopener">Enquire</a>
+        <a href="https://www.instagram.com/Aqua_proh" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://wa.me/254796672741" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 AquaProH Swimming Academy. All rights reserved.</span>
+      <span>Swim beyond horizons.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('navLinks');
+  burger.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  // scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, {threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // animated stat counters
+  const counters = document.querySelectorAll('.count');
+  const counterIO = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const el = entry.target;
+        const target = parseInt(el.dataset.target, 10);
+        let current = 0;
+        const step = Math.max(1, Math.round(target / 30));
+        const tick = () => {
+          current += step;
+          if(current >= target){ el.textContent = String(target).padStart(2,'0'); return; }
+          el.textContent = String(current).padStart(2,'0');
+          requestAnimationFrame(tick);
+        };
+        tick();
+        counterIO.unobserve(el);
+      }
+    });
+  }, {threshold:0.6});
+  counters.forEach(c => counterIO.observe(c));
+
+  // subtle hero parallax
+  const heroImg = document.getElementById('heroImg');
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y < window.innerHeight) {
+      heroImg.style.transform = `translateY(${y * 0.15}px)`;
+    }
+  }, {passive:true});
+</script>
+</body>
+</html>
