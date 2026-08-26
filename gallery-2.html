@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery — AquaProH Swimming Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0b2438;
+    --navy-2:#0e2c44;
+    --ink:#071826;
+    --sky:#4fb7d9;
+    --teal:#1487a8;
+    --gold:#f5b942;
+    --paleblue:#e7f2f6;
+    --paleblue-2:#f4f9fb;
+    --line: rgba(11,36,56,0.1);
+    --line-dark: rgba(255,255,255,0.12);
+    --gray:#4d6373;
+    --max:1180px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth; overflow-x:hidden;}
+  body{
+    font-family:'Inter', sans-serif;
+    color:var(--navy);
+    background:#fff;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    width:100%;
+  }
+  h1,h2,h3,.display{
+    font-family:'Sora', sans-serif;
+    font-weight:700;
+    line-height:1.12;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit; text-decoration:none;}
+  img{display:block; max-width:100%;}
+  svg{display:block;}
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 32px;}
+  @media (max-width:640px){ .wrap{padding:0 20px;} }
+  .eyebrow{
+    font-size:0.72rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--teal);
+    display:flex; align-items:center; gap:8px;
+  }
+  .eyebrow::before{content:''; width:16px; height:1.5px; background:var(--gold);}
+  .eyebrow.on-dark{color:var(--sky);}
+
+  .icon{width:20px; height:20px; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round;}
+  .arrow{display:inline-flex; align-items:center; transition:transform .3s ease;}
+  a:hover .arrow{transform:translateX(5px);}
+
+  @keyframes fadeUp{ from{opacity:0; transform:translateY(22px);} to{opacity:1; transform:translateY(0);} }
+  .fade-in{opacity:0; animation:fadeUp .8s ease forwards;}
+  @media (prefers-reduced-motion: reduce){
+    .fade-in{opacity:1; animation:none;}
+    .reveal{opacity:1 !important; transform:none !important; transition:none !important;}
+    *{animation:none !important;}
+  }
+
+  /* ---------- Nav ---------- */
+  header{position:sticky; top:0; z-index:100; background:rgba(11,36,56,0.94); backdrop-filter:blur(10px); border-bottom:1px solid var(--line-dark);}
+  nav.wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 32px;}
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand img{
+    height:48px; width:48px; object-fit:cover; border-radius:50%; background:#fff;
+    box-shadow:0 8px 18px rgba(0,0,0,0.28); transform:translateY(9px);
+    position:relative; z-index:2;
+  }
+  .brand-text{font-family:'Sora',sans-serif; font-weight:700; font-size:1rem; line-height:1.05; color:#fff;}
+  .brand-text span{display:block; font-family:'Inter',sans-serif; font-weight:600; font-size:0.6rem; letter-spacing:0.16em; color:#8fabbc;}
+  .nav-links{display:flex; align-items:center; gap:30px;}
+  .nav-links a{font-size:0.88rem; font-weight:600; color:#dcebf1; position:relative; padding-bottom:4px;}
+  .nav-links a:not(.nav-cta)::after{content:''; position:absolute; left:0; bottom:0; width:0; height:2px; background:var(--gold); transition:width .3s ease;}
+  .nav-links a:not(.nav-cta):hover::after, .nav-links a.active::after{width:100%;}
+  .nav-links a.active{color:#fff;}
+  .nav-cta{background:var(--gold); color:var(--ink); padding:11px 20px; border-radius:8px; font-weight:700; display:inline-flex; align-items:center; gap:8px; transition:transform .25s ease, background .25s ease;}
+  .nav-cta:hover{transform:translateY(-2px); background:#ffc65e;}
+  .burger{display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer;}
+  .burger span{width:24px; height:2px; background:#fff; transition:transform .3s ease, opacity .3s ease;}
+  @media (max-width:860px){
+    .nav-links{position:fixed; top:63px; right:0; width:min(78vw,300px); height:calc(100vh - 63px);
+      background:var(--navy); flex-direction:column; align-items:flex-start; padding:30px; gap:22px;
+      transform:translateX(100%); transition:transform .35s ease; box-shadow:-6px 0 24px rgba(0,0,0,0.25);}
+    .nav-links.open{transform:translateX(0);}
+    .burger{display:flex;}
+  }
+
+  section{padding:88px 0;}
+
+  /* ---------- Page hero ---------- */
+  .page-hero{position:relative; background:var(--navy); overflow:hidden; padding:0;}
+  .page-hero-img{position:absolute; inset:0; width:100%; height:110%; object-fit:cover; object-position:70% 25%; opacity:0.35;}
+  .page-hero-scrim{position:absolute; inset:0; background:linear-gradient(100deg, rgba(7,24,38,0.96) 30%, rgba(7,24,38,0.7) 100%);}
+  .page-hero-content{position:relative; z-index:2; padding:64px 0 56px; max-width:680px;}
+  .page-hero h1{color:#fff; font-size:clamp(2.1rem,5vw,3rem); margin:16px 0 16px;}
+  .page-hero p{color:#c9dbe4; font-size:1.02rem; max-width:540px;}
+  .crumb{display:flex; align-items:center; gap:8px; color:#8fabbc; font-size:0.85rem; margin-bottom:18px;}
+  .crumb a:hover{color:var(--sky);}
+
+  /* ---------- Gallery ---------- */
+  .gallery-section{background:#fff;}
+  .gal-head{display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap; margin-bottom:36px;}
+  .gal-head h2{font-size:clamp(1.7rem,3.4vw,2.3rem); margin:12px 0 10px;}
+  .gal-head p{color:var(--gray); max-width:480px;}
+  .upload-btn{background:var(--navy); color:#fff; padding:14px 24px; border-radius:8px; font-weight:700; font-size:0.92rem; border:none; cursor:pointer; display:inline-flex; align-items:center; gap:10px; transition:transform .25s ease, background .25s ease;}
+  .upload-btn:hover{transform:translateY(-3px); background:var(--navy-2);}
+  .upload-btn svg{stroke:var(--gold);}
+
+  .gal-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:14px;}
+  @media (max-width:900px){ .gal-grid{grid-template-columns:repeat(3,1fr);} }
+  @media (max-width:640px){ .gal-grid{grid-template-columns:repeat(2,1fr); gap:10px;} }
+  .gal-item{position:relative; aspect-ratio:1/1; border-radius:12px; overflow:hidden; background:var(--paleblue-2); cursor:pointer; border:1px solid var(--line);}
+  .gal-item img, .gal-item video{width:100%; height:100%; object-fit:cover; transition:transform .4s ease;}
+  .gal-item:hover img, .gal-item:hover video{transform:scale(1.06);}
+  .gal-item .play{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(7,24,38,0.28);}
+  .gal-item .play svg{width:38px; height:38px; stroke:#fff; fill:rgba(255,255,255,0.15);}
+
+  .gal-empty{grid-column:1/-1; text-align:center; padding:60px 20px; color:var(--gray); background:var(--paleblue-2); border-radius:14px; border:1px dashed var(--line);}
+  .gal-empty svg{width:40px; height:40px; margin:0 auto 14px; stroke:var(--teal);}
+
+  /* ---------- Lightbox ---------- */
+  .lightbox{position:fixed; inset:0; background:rgba(7,24,38,0.92); z-index:1000; display:none; align-items:center; justify-content:center; padding:24px;}
+  .lightbox.open{display:flex;}
+  .lightbox-inner{max-width:900px; max-height:88vh; width:100%;}
+  .lightbox-inner img, .lightbox-inner video{width:100%; max-height:88vh; object-fit:contain; border-radius:10px;}
+  .lightbox-close{position:absolute; top:22px; right:28px; width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,0.1); border:none; display:flex; align-items:center; justify-content:center; cursor:pointer;}
+  .lightbox-close svg{stroke:#fff; width:20px; height:20px;}
+
+  /* ---------- Password modal ---------- */
+  .pw-modal{position:fixed; inset:0; background:rgba(7,24,38,0.6); z-index:1000; display:none; align-items:center; justify-content:center; padding:20px;}
+  .pw-modal.open{display:flex;}
+  .pw-card{background:#fff; border-radius:14px; padding:32px; max-width:360px; width:100%; box-shadow:0 20px 50px rgba(11,36,56,0.2);}
+  .pw-card h3{font-size:1.1rem; margin-bottom:8px;}
+  .pw-card p{color:var(--gray); font-size:0.88rem; margin-bottom:18px;}
+  .pw-card input{width:100%; border:1px solid var(--line); padding:12px 14px; border-radius:8px; font-family:'Inter'; font-size:0.92rem; margin-bottom:14px;}
+  .pw-card input:focus{outline:none; border-color:var(--teal); box-shadow:0 0 0 3px rgba(20,135,168,0.15);}
+  .pw-actions{display:flex; gap:10px;}
+  .pw-actions button{flex:1; padding:12px; border-radius:8px; font-weight:700; font-size:0.88rem; border:none; cursor:pointer;}
+  .pw-cancel{background:var(--paleblue-2); color:var(--navy);}
+  .pw-submit{background:var(--gold); color:var(--ink);}
+  .pw-error{color:#c0392b; font-size:0.82rem; margin-top:-8px; margin-bottom:14px; display:none;}
+
+  /* ---------- Footer ---------- */
+  footer{background:var(--ink); color:#9db6c4; padding:50px 0 26px;}
+  .foot-top{display:flex; justify-content:space-between; gap:30px; flex-wrap:wrap; margin-bottom:34px;}
+  .foot-brand{display:flex; align-items:center; gap:10px; margin-bottom:10px;}
+  .foot-brand img{
+    height:44px; width:44px; object-fit:cover; border-radius:50%; background:#fff;
+    box-shadow:0 6px 16px rgba(0,0,0,0.22);
+  }
+  .foot-brand b{color:#fff; font-family:'Sora'; font-size:1rem;}
+  .foot-copy{max-width:280px; font-size:0.88rem;}
+  .foot-links{display:flex; gap:26px; flex-wrap:wrap;}
+  .foot-links a{font-size:0.88rem; font-weight:600; transition:color .25s ease;}
+  .foot-links a:hover{color:#fff;}
+  .foot-bottom{border-top:1px solid var(--line-dark); padding-top:20px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:0.8rem;}
+
+  .reveal{opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="index.html#home" class="brand">
+      <img src="https://i.postimg.cc/j2HSW4J8/aquaproh-logo-white-Dg-Cc9q-Ut.jpg" alt="AquaProH logo">
+      <span class="brand-text">AquaProH<span>SWIMMING ACADEMY</span></span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html#home">Home</a>
+      <a href="services.html">Services</a>
+      <a href="gallery.html" class="active">Gallery</a>
+      <a href="contact.html">Contact</a>
+      <a href="https://wa.me/254795282709" target="_blank" rel="noopener" class="nav-cta">Start an enquiry <span class="arrow">→</span></a>
+    </div>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <img class="page-hero-img" src="https://i.postimg.cc/s2bjwNYb/IMG-20260823-WA0013(1).jpg" alt="AquaProH swimmer">
+  <div class="page-hero-scrim"></div>
+  <div class="wrap page-hero-content">
+    <div class="crumb fade-in" style="animation-delay:.05s"><a href="index.html#home">Home</a><span>/</span><span style="color:#fff;">Gallery</span></div>
+    <span class="eyebrow on-dark fade-in" style="animation-delay:.15s">In The Water</span>
+    <h1 class="fade-in" style="animation-delay:.25s">Moments from the pool.</h1>
+    <p class="fade-in" style="animation-delay:.4s">Photos and clips from sessions across our Nairobi locations — real swimmers, real progress.</p>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section">
+  <div class="wrap">
+    <div class="gal-head reveal">
+      <div>
+        <span class="eyebrow">Recent Sessions</span>
+        <h2>Straight from the poolside.</h2>
+        <p>New photos and videos appear here as soon as they're added.</p>
+      </div>
+    </div>
+
+    <div class="gal-grid reveal" id="galGrid">
+      <div class="gal-empty" id="galEmpty">
+        <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+        <p>Loading gallery…</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  <div class="lightbox-inner" id="lightboxInner"></div>
+</div>
+
+<!-- PASSWORD MODAL -->
+<div class="pw-modal" id="pwModal">
+  <div class="pw-card">
+    <h3>Coach access</h3>
+    <p>Enter the upload password to add photos or videos.</p>
+    <input type="password" id="pwInput" placeholder="Password">
+    <p class="pw-error" id="pwError">Incorrect password. Try again.</p>
+    <div class="pw-actions">
+      <button class="pw-cancel" id="pwCancel">Cancel</button>
+      <button class="pw-submit" id="pwSubmit">Continue</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="foot-brand"><img src="https://i.postimg.cc/j2HSW4J8/aquaproh-logo-white-Dg-Cc9q-Ut.jpg" alt="AquaProH logo"><b>AquaProH<br>Swimming Academy</b></div>
+        <p class="foot-copy">Structured coaching for confident swimmers, capable bodies, and safer communities.</p>
+      </div>
+      <div class="foot-links">
+        <a href="services.html">Services</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+        <a href="https://wa.me/254795282709" target="_blank" rel="noopener">Enquire</a>
+        <a href="https://www.instagram.com/Aqua_proh" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://wa.me/254796672741" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span id="footCopyright" style="cursor:default;">© 2026 AquaProH Swimming Academy. All rights reserved.</span>
+      <span>Swim beyond horizons.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://widget.cloudinary.com/v2.0/global/all.js"></script>
+<script>
+  /* ====== CONFIG ====== */
+  const CLOUD_NAME = 'w2kbt7mn';
+  const UPLOAD_PRESET = 'aquaproh-gallery';
+  const GALLERY_TAG = 'gallery';
+  /* Change this to whatever password you want coaches to use to upload. */
+  const UPLOAD_PASSWORD = 'aquaproh2026';
+
+  /* ====== Nav burger ====== */
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('navLinks');
+  burger.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, {threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* ====== Load gallery from Cloudinary's public tag list ====== */
+  const galGrid = document.getElementById('galGrid');
+  const galEmpty = document.getElementById('galEmpty');
+
+  async function loadGallery(){
+    try{
+      const [imgRes, vidRes] = await Promise.all([
+        fetch(`https://res.cloudinary.com/${CLOUD_NAME}/image/list/${GALLERY_TAG}.json`),
+        fetch(`https://res.cloudinary.com/${CLOUD_NAME}/video/list/${GALLERY_TAG}.json`)
+      ]);
+      const imgData = imgRes.ok ? await imgRes.json() : {resources:[]};
+      const vidData = vidRes.ok ? await vidRes.json() : {resources:[]};
+
+      const items = [
+        ...imgData.resources.map(r => ({...r, kind:'image'})),
+        ...vidData.resources.map(r => ({...r, kind:'video'}))
+      ].sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
+
+      renderGallery(items);
+    }catch(err){
+      console.error('Gallery load failed', err);
+      galGrid.innerHTML = '<div class="gal-empty"><p>Couldn\'t load the gallery right now. Please refresh.</p></div>';
+    }
+  }
+
+  function renderGallery(items){
+    if(!items.length){
+      galGrid.innerHTML = `
+        <div class="gal-empty">
+          <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+          <p>New photos and videos from our sessions will appear here soon.</p>
+        </div>`;
+      return;
+    }
+    galGrid.innerHTML = items.map(item => {
+      const base = `https://res.cloudinary.com/${CLOUD_NAME}`;
+      if(item.kind === 'video'){
+        const thumb = `${base}/video/upload/so_0,w_500,h_500,c_fill,q_auto,f_jpg/${item.public_id}.jpg`;
+        const full = `${base}/video/upload/q_auto/${item.public_id}.${item.format}`;
+        return `<div class="gal-item" data-kind="video" data-full="${full}">
+          <img src="${thumb}" alt="Swimming video" loading="lazy">
+          <div class="play"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></div>
+        </div>`;
+      }else{
+        const thumb = `${base}/image/upload/w_500,h_500,c_fill,q_auto,f_auto/${item.public_id}.${item.format}`;
+        const full = `${base}/image/upload/q_auto,f_auto/${item.public_id}.${item.format}`;
+        return `<div class="gal-item" data-kind="image" data-full="${full}">
+          <img src="${thumb}" alt="Swimming session photo" loading="lazy">
+        </div>`;
+      }
+    }).join('');
+
+    document.querySelectorAll('.gal-item').forEach(el => {
+      el.addEventListener('click', () => openLightbox(el.dataset.kind, el.dataset.full));
+    });
+  }
+
+  /* ====== Lightbox ====== */
+  const lightbox = document.getElementById('lightbox');
+  const lightboxInner = document.getElementById('lightboxInner');
+  document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (e) => { if(e.target === lightbox) closeLightbox(); });
+
+  function openLightbox(kind, src){
+    lightboxInner.innerHTML = kind === 'video'
+      ? `<video src="${src}" controls autoplay playsinline></video>`
+      : `<img src="${src}" alt="">`;
+    lightbox.classList.add('open');
+  }
+  function closeLightbox(){
+    lightbox.classList.remove('open');
+    lightboxInner.innerHTML = '';
+  }
+
+  /* ====== Password gate + upload widget ====== */
+  const pwModal = document.getElementById('pwModal');
+  const pwInput = document.getElementById('pwInput');
+  const pwError = document.getElementById('pwError');
+
+  document.getElementById('footCopyright').addEventListener('click', () => {
+    pwModal.classList.add('open');
+    pwError.style.display = 'none';
+    pwInput.value = '';
+    pwInput.focus();
+  });
+  document.getElementById('pwCancel').addEventListener('click', () => pwModal.classList.remove('open'));
+  pwInput.addEventListener('keydown', (e) => { if(e.key === 'Enter') submitPassword(); });
+  document.getElementById('pwSubmit').addEventListener('click', submitPassword);
+
+  function submitPassword(){
+    if(pwInput.value === UPLOAD_PASSWORD){
+      pwModal.classList.remove('open');
+      openUploadWidget();
+    }else{
+      pwError.style.display = 'block';
+    }
+  }
+
+  function openUploadWidget(){
+    if(typeof cloudinary === 'undefined'){
+      alert('Upload tool is still loading — please wait a moment and try again. If this keeps happening, check your internet connection.');
+      return;
+    }
+    const widget = cloudinary.createUploadWidget({
+      cloudName: CLOUD_NAME,
+      uploadPreset: UPLOAD_PRESET,
+      tags: [GALLERY_TAG],
+      sources: ['local','camera'],
+      multiple: true,
+      maxFiles: 20,
+      resourceType: 'auto',
+      folder: 'aquaproh-gallery',
+      styles: {
+        palette: {
+          window: '#ffffff',
+          windowBorder: '#0b2438',
+          tabIcon: '#1487a8',
+          menuIcons: '#0b2438',
+          textDark: '#0b2438',
+          textLight: '#ffffff',
+          link: '#1487a8',
+          action: '#f5b942',
+          inactiveTabIcon: '#8fabbc',
+          error: '#c0392b',
+          inProgress: '#1487a8',
+          complete: '#20a464',
+          sourceBg: '#f4f9fb'
+        }
+      }
+    }, (error, result) => {
+      if(!error && result && result.event === 'success'){
+        loadGallery();
+      }
+    });
+    widget.open();
+  }
+
+  loadGallery();
+</script>
+</body>
+</html>
